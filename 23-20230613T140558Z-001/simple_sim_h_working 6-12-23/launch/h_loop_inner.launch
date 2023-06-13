@@ -1,0 +1,35 @@
+<launch>
+
+  <!-- Load map -->
+ <!-- <param name="map_dir" value="$(find simple_sim_h_working)/map" />
+  <rosparam command="load" file="$(find simple_sim_h_working)/map/h_loop_course.yaml" /> 
+                                              
+  <param name="Theta_init" value="180.0" />
+  <param name="Xr_init" value="-1.03"      />
+  <param name="Yr_init" value="-1.52"    /> -->
+  
+      <include file="$(find avt_vimba_camera)/launch/mono_camera.launch">
+         <arg name="ip" value="192.168.0.40"/>
+         <arg name="reverse_x" value="true"/>
+         <arg name="reverse_y" value="true"/>
+      </include>
+   <node pkg="simple_sim_h_working" type="hello_world_camera_2.py" name="simple_sim_h_working" output="screen" />  
+  <!-- Load robot -->
+  <rosparam command="load" file="$(find simple_sim_h_working)/robot/ackermann.yaml" />
+<!--
+  <include file="$(find simple_sim)/launch/simple_sim.launch">
+    <arg name="show_rviz" value="false" />
+    <arg name="show_kb_teleop" value="false" />
+  </include>
+  -->
+<!--<param name="imgtopic_name" type="str" value="/camera/image_raw" />
+
+  <include file="$(find hello_world_camera)/launch/hello_world_camera.launch">
+  </include>
+-->
+  <node name="follow_lane" pkg="simple_sim_h_working" type="follow_lane.py" required="true" output="screen">
+      <param name="imgtopic_name" type="str" value="/camera/image_raw" />
+  	</node>
+  <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_console" args="-t">
+  </node>
+</launch>

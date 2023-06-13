@@ -1,0 +1,20 @@
+<launch>
+
+  <!-- Load map -->
+  <param name="map_dir" value="$(find simple_sim_h_working)/map" />
+  <rosparam command="load" file="$(find simple_sim_h_working)/map/h2_course.yaml" /> 
+                                               <!-- yaml file has many rosparams -->
+  <param name="Theta_init" value="180.0" />
+  <param name="Xr_init" value="-1.03"      />
+  <param name="Yr_init" value="-1.77"    />
+
+
+  <!-- Load robot -->
+  <rosparam command="load" file="$(find simple_sim_h_working)/robot/ackermann.yaml" />
+
+  <include file="$(find simple_sim)/launch/simple_sim.launch">
+    <arg name="show_rviz" value="false" />
+    <arg name="show_kb_teleop" value="false" />
+  </include>
+
+</launch>

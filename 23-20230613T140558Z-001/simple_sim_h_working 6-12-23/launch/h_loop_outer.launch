@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- Load map -->
+  <param name="map_dir" value="$(find simple_sim_h_working)/map" />
+  <rosparam command="load" file="$(find simple_sim_h_working)/map/h_loop_course.yaml" />
+
+  <!-- Load robot -->
+  <rosparam command="load" file="$(find simple_sim_h_working)/robot/ackermann.yaml" />
+
+  <include file="$(find simple_sim)/launch/simple_sim.launch">
+    <arg name="show_rviz" value="false" />
+    <arg name="show_kb_teleop" value="false" />
+  </include>
+  <node name="follow_lane" pkg="simple_sim_h_working" type="follow_lane.py" required="true" output="screen">
+		<param name="imgtopic_name" type="str" value="/camera/image_raw" />   
+	</node>
+</launch>

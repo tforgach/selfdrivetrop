@@ -1,0 +1,15 @@
+<launch>
+<!-- M Kocherovsky, J Dombecki and Dr G DeRose-->
+   
+   <!-- camera system -->
+      <!-- ACTor1 -->
+      <include file="$(find avt_vimba_camera)/launch/mono_camera.launch">
+         <arg name="ip" value="192.168.0.40"/>
+         <arg name="reverse_x" value="true"/>
+         <arg name="reverse_y" value="true"/>
+      </include>
+
+   <!-- Launch program node -->
+   <node pkg="hello_camera_node" type="hello_world_camera_2.py" name="hello_camera_node" output="screen" />  
+
+</launch>
