@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras import layers
+from tensorflow.keras import layers, datasets
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
@@ -10,8 +10,8 @@ channels = 3
 learning_rate = 0.01
 image_dir = "bags/img/training"
 
-dsTrain = tf.data.Dataset.load('tfds/tfds_train0000')
-dsTest = tf.data.Dataset.load('tfds/tfds_test0000')
+dsTrain = datasets.load('tfds/tfds_train0000')
+dsTest = datasets.load('tfds/tfds_test0000')
 xTrain = [x for x,y in dsTrain]
 xTest = [x for x,y in dsTest]
 yTrain = [y for x,y in dsTrain]
