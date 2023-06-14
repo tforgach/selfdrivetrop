@@ -55,8 +55,7 @@ elif menu == "2":
         pred = model.pred(x)[0][0]
         cv.imshow("Camera View", img)
         print(f'Feature {i}\nModel predicted: {pred}. Actual label: {y}\nLoss of: {abs(pred-y)}')
-        
-cv.waitKey(0)
+    cv.waitKey(0)
 
 xTest = tf.convert_to_tensor(xTest)
 yTest = tf.convert_to_tensor(yTest)
