@@ -60,7 +60,7 @@ cv.waitKey(0)
 
 xTest = tf.convert_to_tensor(xTest)
 yTest = tf.convert_to_tensor(yTest)
-testPerf = model.evaluate(xTest, yTest, batch_size = 1) #test performance
+testPerf = model.evaluate(xTest, yTest, batch_size = 1, verbose=0) #test performance
 
 plt.plot(testPerf.history['loss'], label='loss')
 plt.plot(testPerf.history['mae'], label='mae')
