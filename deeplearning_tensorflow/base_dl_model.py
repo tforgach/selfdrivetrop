@@ -1,5 +1,5 @@
 import tensorflow as tf
-import layers from keras
+from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
