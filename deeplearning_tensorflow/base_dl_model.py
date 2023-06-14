@@ -1,4 +1,5 @@
 import tensorflow as tf
+import layers from keras
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
@@ -19,14 +20,14 @@ yTest = [y for x,y in dsTest]
 testSize = len(xTest)
 
 model = tf.keras.Sequential([
-    tf.keras.layers.Conv2D(32, (3, 3), activation=tf.nn.leaky_relu, inputShape=(image_height, image_width, channels)), 
-    tf.keras.layers.MaxPooling2D((2,2)), 
-    tf.keras.layers.Conv2D(64, (3, 3), activation=tf.nn.leaky_relu), 
-    tf.keras.layers.MaxPooling2D((2,2)), 
-    tf.keras.layers.Conv2D(64, (3, 3), activation=tf.nn.leaky_relu), 
-    tf.keras.layers.Flatten(), 
-    tf.keras.layers.Dense(64, activation=tf.nn.leaky_relu), 
-    tf.keras.layers.Dense(1)
+    layers.Conv2D(32, (3, 3), activation=tf.nn.leaky_relu, inputShape=(image_height, image_width, channels)), 
+    layers.MaxPooling2D((2,2)), 
+    layers.Conv2D(64, (3, 3), activation=tf.nn.leaky_relu), 
+    layers.MaxPooling2D((2,2)), 
+    layers.Conv2D(64, (3, 3), activation=tf.nn.leaky_relu), 
+    layers.Flatten(), 
+    layers.Dense(64, activation=tf.nn.leaky_relu), 
+    layers.Dense(1)
 ])
 
 opt = tf.keras.optimizers.SGD(learningRate=learning_rate)
