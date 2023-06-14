@@ -40,11 +40,11 @@ menu = input(f"Training is complete, moving on to tests with {testSize} feeature
 2: Display each prediction, actual value and the input image\n\
 3: Display accuracy plot after tests (Both of the other options will do this as well.)\n")
 if menu == "1":
+    pred = model.predict(x)
+    predictions = model.predict(xTest)
     for i in range(testSize):
-        x = np.expand_dims(xTest[i])
+        pred = predictions[i][0]
         y = yTest[i][0]
-        pred = model.predict(x)
-        pred = pred[0][0]
         input(f'Feature {i}\nModel predicted: {pred}. Actual label: {y}\nLoss of: {abs(pred-y)}')
 
 elif menu == "2":
