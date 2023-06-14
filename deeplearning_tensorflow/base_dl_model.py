@@ -30,7 +30,7 @@ model = tf.keras.Sequential([
     layers.Dense(1)
 ])
 
-opt = tf.keras.optimizers.SGD(learningRate=learning_rate)
+opt = tf.keras.optimizers.SGD(learningRate = learning_rate)
 
 model.compile(optimizer=opt, loss="mse", metrics=["mae"])
 model.fit(xTrain, yTrain, epochs=10, batch_size = 1)
@@ -59,7 +59,7 @@ elif menu == "2":
 
 xTest = tf.convert_to_tensor(xTest)
 yTest = tf.convert_to_tensor(yTest)
-testPerf = model.fit(xTest, yTest, epochs = 10, batch_size = 1) #test performance
+testPerf = model.evaluate(xTest, yTest, batch_size = 1) #test performance
 
 plt.plot(testPerf.history['loss'], label='loss')
 plt.plot(testPerf.history['mae'], label='mae')
