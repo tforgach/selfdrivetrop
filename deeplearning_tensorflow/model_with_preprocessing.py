@@ -3,6 +3,7 @@ from tensorflow.keras import layers, datasets
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
+import glob
 from sklearn.model_selection import train_test_split
 
 # preprocesses the images
@@ -20,24 +21,25 @@ def preprocessData(imgs, labels, imgHeight, imgWidth):
 imgHeight = 100
 imgWidth = 100
 imgDir = "DeepSteer/rosbags" # image directory
+imgPaths = glob.glob(imgDir + "/*.jpg")
 
 # load additional data needed for model
 channels = 3
 learning_rate = 0.01
 
 # load datasets
-dsTrain = datasets.load('DeepSteer/rosbags/bag1.bag')
-dsTest = datasets.load('DeepSteer/rosbags/bag1.bag')
-xTrain, xTest, yTrain, yTest = train_test_split(xTrain, yTrain, test_size=0.2)
-xTrain = [x for x,y in dsTrain]
-xTest = [x for x,y in dsTest]
-yTrain = [y for x,y in dsTrain]
-yTest = [y for x,y in dsTest]
-testSize = len(xTest)
+# dsTrain = datasets.load('DeepSteer/rosbags/bag1.bag')
+# dsTest = datasets.load('DeepSteer/rosbags/bag1.bag')
+pathTrain, pathTest = train_test_split(imgPaths, test_size=0.2)
+# xTrain = [x for x,y in dsTrain]
+# xTest = [x for x,y in dsTest]
+# yTrain = [y for x,y in dsTrain]
+# yTest = [y for x,y in dsTest]
+testSize = len(pathTrain)
 
 # preprocess data
-xTrain, yTrain = preprocessData(xTrain, yTrain, imgHeight, imgWidth)
-xTest, yTest = preprocessData(xTest, yTest, imgHeight, imgWidth)
+xTrain, yTrain = preprocessData(pathTrain, np.zeros(testSize), imgHeight, imgWidth)
+xTest, yTest = preprocessData(xTest, yTest, np.zeros(testSize),imgHeight, imgWidth)
 
 
 # define model
