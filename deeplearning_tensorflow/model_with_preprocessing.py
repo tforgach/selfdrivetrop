@@ -28,7 +28,7 @@ learning_rate = 0.01
 # load datasets
 dsTrain = datasets.load('DeepSteer/rosbags/bag1.bag')
 dsTest = datasets.load('DeepSteer/rosbags/bag1.bag')
-xTrain, xTest, yTrain, yTest = train_test_split(dsTrain, dsTest)
+xTrain, xTest, yTrain, yTest = train_test_split(xTrain, yTrain, test_size=0.2)
 xTrain = [x for x,y in dsTrain]
 xTest = [x for x,y in dsTest]
 yTrain = [y for x,y in dsTrain]
