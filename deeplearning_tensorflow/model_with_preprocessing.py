@@ -19,7 +19,7 @@ def preprocessData(imgs, labels, imgHeight, imgWidth):
 # load data for preprocessing
 imgHeight = 100
 imgWidth = 100
-imgDir = "bags/img/training" # image directory
+imgDir = "rosbags/img/training" # image directory
 
 # load additional data needed for model
 channels = 3
@@ -28,6 +28,7 @@ learning_rate = 0.01
 # load datasets
 dsTrain = datasets.load('tfds/tfds_train0000')
 dsTest = datasets.load('tfds/tfds_test0000')
+xTrain, xTest, yTrain, yTest = train_test_split(dsTrain, dsTest)
 xTrain = [x for x,y in dsTrain]
 xTest = [x for x,y in dsTest]
 yTrain = [y for x,y in dsTrain]
