@@ -19,7 +19,7 @@ def preprocessData(imgs, labels, imgHeight, imgWidth):
 # load data for preprocessing
 imgHeight = 100
 imgWidth = 100
-imgDir = "rosbags/img/training" # image directory
+imgDir = "DeepSteer/rosbags" # image directory
 
 # load additional data needed for model
 channels = 3
