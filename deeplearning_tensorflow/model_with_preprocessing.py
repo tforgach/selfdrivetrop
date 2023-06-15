@@ -26,8 +26,8 @@ channels = 3
 learning_rate = 0.01
 
 # load datasets
-dsTrain = datasets.load('tfds/tfds_train0000')
-dsTest = datasets.load('tfds/tfds_test0000')
+dsTrain = datasets.load('DeepSteer/rosbags/bag1.bag')
+dsTest = datasets.load('DeepSteer/rosbags/bag1.bag')
 xTrain, xTest, yTrain, yTest = train_test_split(dsTrain, dsTest)
 xTrain = [x for x,y in dsTrain]
 xTest = [x for x,y in dsTest]
