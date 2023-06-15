@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 # preprocesses the images
 def preprocessData(imgs, labels, imgHeight, imgWidth):
     processedImgs = []
+    imgHeight = 100
+    imgWidth = 100
     for path in imgs:
         img = cv.imread(path)
         img = cv.resize(img, (imgWidth, imgHeight))
@@ -18,8 +20,6 @@ def preprocessData(imgs, labels, imgHeight, imgWidth):
     return processedImgs, labels 
 
 # load data for preprocessing
-imgHeight = 100
-imgWidth = 100
 imgDir = "DeepSteer/rosbags" # image directory
 imgPaths = glob.glob(imgDir + "/*.jpg")
 
