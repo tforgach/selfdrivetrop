@@ -58,6 +58,8 @@ opt = tf.keras.optimizers.SGD(learningRate = learning_rate)
 
 model.compile(optimizer=opt, loss="mse", metrics=["mae"])
 model.fit(xTrain, yTrain, epochs=10, batch_size = 1)
+model.save("trained_model") # saves the trained model
+print("Successfully saved")
 
 menu = input(f"Training is complete, moving on to tests with {testSize} feeatures.\n\
 1: Display each prediction and actual value\n\
