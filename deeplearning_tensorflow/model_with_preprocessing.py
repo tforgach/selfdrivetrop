@@ -40,8 +40,8 @@ learning_rate = 0.01
 # yTest = [y for x,y in dsTest]
 
 # preprocess data
-xTrain, yTrain = preprocessData(pathTrain, np.zeros(testSize), imgHeight, imgWidth)
-xTest, yTest = preprocessData(xTest, yTest, np.zeros(testSize),imgHeight, imgWidth)
+xTrain, yTrain = preprocessData(pathTrain, labels, imgHeight, imgWidth)
+xTest, yTest = preprocessData(pathTest, labels,imgHeight, imgWidth)
 
 
 # define model
