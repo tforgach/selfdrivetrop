@@ -6,6 +6,14 @@ import cv2 as cv
 import glob
 from sklearn.model_selection import train_test_split
 
+# load data for preprocessing
+imgDir = "DeepSteer/rosbags" # image directory
+imgPaths = glob.glob(imgDir + "/*.jpg")
+labels = np.zeros(len(imgPaths))
+
+# split data
+pathTrain, pathTest, labelTrain, labelTest = train_test_split(imgPaths, labels, test_size=0.2)
+
 # preprocesses the images
 def preprocessData(imgs, labels, imgHeight, imgWidth):
     processedImgs = []
@@ -19,10 +27,6 @@ def preprocessData(imgs, labels, imgHeight, imgWidth):
     processedImgs = np.array(processedImgs)
     return processedImgs, labels 
 
-# load data for preprocessing
-imgDir = "DeepSteer/rosbags" # image directory
-imgPaths = glob.glob(imgDir + "/*.jpg")
-
 # load additional data needed for model
 channels = 3
 learning_rate = 0.01
@@ -30,12 +34,10 @@ learning_rate = 0.01
 # load datasets
 # dsTrain = datasets.load('DeepSteer/rosbags/bag1.bag')
 # dsTest = datasets.load('DeepSteer/rosbags/bag1.bag')
-pathTrain, pathTest = train_test_split(imgPaths, test_size=0.2)
 # xTrain = [x for x,y in dsTrain]
 # xTest = [x for x,y in dsTest]
 # yTrain = [y for x,y in dsTrain]
 # yTest = [y for x,y in dsTest]
-testSize = len(pathTrain)
 
 # preprocess data
 xTrain, yTrain = preprocessData(pathTrain, np.zeros(testSize), imgHeight, imgWidth)
