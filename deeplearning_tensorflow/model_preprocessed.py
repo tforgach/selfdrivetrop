@@ -3,29 +3,28 @@ from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
-import glob
+import os
 from sklearn.model_selection import train_test_split
 
 # load data for preprocessing
 imgDir = "DeepSteer/rosbags" # image directory
-imgPaths = glob.glob(imgDir + "/*.jpg")
-labels = np.zeros(len(imgPaths))
+imgPaths = [os.path.join(imgDir, filename) for filename in os.listdir(imgDir) if filename.endswith(".jpg")] # load data
+labels = np.zeros(len(imgPaths)) # load data
 
-# split data
-pathTrain, pathTest, labelTrain, labelTest = train_test_split(imgPaths, labels, test_size=0.2)
+# define image resize parameters
+imgHeight = 100
+imgWidth = 100
 
 # preprocesses the images
 def preprocessData(imgs, labels, imgHeight, imgWidth):
     processedImgs = []
-    imgHeight = 100
-    imgWidth = 100
     for path in imgs:
         img = cv.imread(path)
         img = cv.resize(img, (imgWidth, imgHeight))
         img = img.astype(np.float32) / 255.0 # normalizes the pixel values
         processedImgs.append(img)
     processedImgs = np.array(processedImgs)
-    return processedImgs, labels 
+    return processedImgs #, labels - may not need preprocessing
 
 # load additional data needed for model
 channels = 3
@@ -38,10 +37,6 @@ learning_rate = 0.01
 # xTest = [x for x,y in dsTest]
 # yTrain = [y for x,y in dsTrain]
 # yTest = [y for x,y in dsTest]
-
-# preprocess data
-xTrain, yTrain = preprocessData(pathTrain, labels, imgHeight, imgWidth)
-xTest, yTest = preprocessData(pathTest, labels,imgHeight, imgWidth)
 
 
 # define model
@@ -59,9 +54,19 @@ model = tf.keras.Sequential([
 opt = tf.keras.optimizers.SGD(learningRate = learning_rate)
 
 model.compile(optimizer=opt, loss="mse", metrics=["mae"])
-model.fit(xTrain, yTrain, epochs=10, batch_size = 1)
-model.save("trained_model") # saves the trained model
+
+# split and train model
+xTrain, xTest, yTrain, yTest = train_test_split(imgPaths, labels, test_size=0.2, random_state=42)
+
+# preprocess data
+xTrainProcessed = preprocessData(xTrain, imgHeight, imgWidth)
+xTestProcessed = preprocessData(xTest, imgHeight, imgWidth)
+
+
+model.fit(xTrain, yTrain, epochs=10, batch_size = 1) # train model
+model.save("trained_model") # saves the trained model # save trained model
 print("Successfully saved")
+model = tf.keras.models.load_model("trained_model")
 
 menu = input(f"Training is complete, moving on to tests with {testSize} feeatures.\n\
 1: Display each prediction and actual value\n\
