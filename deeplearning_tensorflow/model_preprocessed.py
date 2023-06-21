@@ -57,6 +57,7 @@ model.compile(optimizer=opt, loss="mse", metrics=["mae"])
 
 # split and train model
 xTrain, xTest, yTrain, yTest = train_test_split(imgPaths, labels, test_size=0.2, random_state=42)
+testSize = len(xTestProcessed)
 
 # preprocess data
 xTrainProcessed = preprocessData(xTrain, imgHeight, imgWidth)
