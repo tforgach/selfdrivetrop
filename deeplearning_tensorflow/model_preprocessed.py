@@ -41,7 +41,7 @@ learning_rate = 0.01
 
 # define model
 model = tf.keras.Sequential([
-    layers.Conv2D(32, (3, 3), activation=tf.nn.leaky_relu, inputShape=(imgHeight, imgWidth, channels)), 
+    layers.Conv2D(32, (3, 3), activation=tf.nn.leaky_relu, input_shape=(imgHeight, imgWidth, channels)), 
     layers.MaxPooling2D((2,2)), 
     layers.Conv2D(64, (3, 3), activation=tf.nn.leaky_relu), 
     layers.MaxPooling2D((2,2)), 
@@ -51,7 +51,7 @@ model = tf.keras.Sequential([
     layers.Dense(1)
 ])
 
-opt = tf.keras.optimizers.SGD(learningRate = learning_rate)
+opt = tf.keras.optimizers.SGD(learning_rate = learning_rate)
 
 model.compile(optimizer=opt, loss="mse", metrics=["mae"])
 
@@ -73,7 +73,7 @@ menu = input(f"Training is complete, moving on to tests with {testSize} feeature
 2: Display each prediction, actual value and the input image\n\
 3: Display accuracy plot after tests (Both of the other options will do this as well.)\n")
 if menu == "1":
-    predictions = model.predict(xTest)
+    predictions = model.predict(xTestProcessed)
     for i in range(testSize):
         pred = predictions[i][0]
         y = yTest[i][0]
@@ -83,15 +83,15 @@ elif menu == "2":
     for i in range(testSize):
         x = np.expand_dims(xTest[i], axis=0)
         y = yTest[i][0]
-        img = xTest[i].np()
+        img = xTestProcessed[i].np()
         pred = model.pred(x)[0][0]
         cv.imshow("Camera View", img)
         print(f'Feature {i}\nModel predicted: {pred}. Actual label: {y}\nLoss of: {abs(pred-y)}')
     cv.waitKey(0)
 
-xTest = tf.convert_to_tensor(xTest)
+xTest = tf.convert_to_tensor(xTestProcessed)
 yTest = tf.convert_to_tensor(yTest)
-testPerf = model.evaluate(xTest, yTest, batch_size = 1, verbose=0) #test performance
+testPerf = model.evaluate(xTestProcessed, yTest, batch_size = 1, verbose=0) #test performance
 
 plt.plot(testPerf.history['loss'], label='loss')
 plt.plot(testPerf.history['mae'], label='mae')
