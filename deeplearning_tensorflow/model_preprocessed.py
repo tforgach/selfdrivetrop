@@ -30,15 +30,6 @@ def preprocessData(imgs, labels, imgHeight, imgWidth):
 channels = 3
 learning_rate = 0.01
 
-# load datasets
-# dsTrain = datasets.load('DeepSteer/rosbags/bag1.bag')
-# dsTest = datasets.load('DeepSteer/rosbags/bag1.bag')
-# xTrain = [x for x,y in dsTrain]
-# xTest = [x for x,y in dsTest]
-# yTrain = [y for x,y in dsTrain]
-# yTest = [y for x,y in dsTest]
-
-
 # define model
 model = tf.keras.Sequential([
     layers.Conv2D(32, (3, 3), activation=tf.nn.leaky_relu, input_shape=(imgHeight, imgWidth, channels)), 
@@ -57,15 +48,14 @@ model.compile(optimizer=opt, loss="mse", metrics=["mae"])
 
 # split and train model
 xTrain, xTest, yTrain, yTest = train_test_split(imgPaths, labels, test_size=0.2, random_state=42)
-testSize = len(xTestProcessed)
 
 # preprocess data
 xTrainProcessed = preprocessData(xTrain, imgHeight, imgWidth)
 xTestProcessed = preprocessData(xTest, imgHeight, imgWidth)
+testSize = len(xTestProcessed)
 
-
-model.fit(xTrain, yTrain, epochs=10, batch_size = 1) # train model
-model.save("trained_model") # saves the trained model # save trained model
+model.fit(xTrainProcessed, yTrain, epochs=10, batch_size = 1) # train model
+model.save("trained_model") # saves the trained model
 print("Successfully saved")
 model = tf.keras.models.load_model("trained_model")
 
