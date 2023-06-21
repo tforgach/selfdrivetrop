@@ -81,7 +81,7 @@ if menu == "1":
 
 elif menu == "2":
     for i in range(testSize):
-        x = np.expand_dims(xTest[i], axis=0)
+        x = np.expand_dims(xTestProcessed[i], axis=0)
         y = yTest[i][0]
         img = xTestProcessed[i].np()
         pred = model.pred(x)[0][0]
@@ -89,7 +89,7 @@ elif menu == "2":
         print(f'Feature {i}\nModel predicted: {pred}. Actual label: {y}\nLoss of: {abs(pred-y)}')
     cv.waitKey(0)
 
-xTest = tf.convert_to_tensor(xTestProcessed)
+xTestProcessed = tf.convert_to_tensor(xTestProcessed)
 yTest = tf.convert_to_tensor(yTest)
 testPerf = model.evaluate(xTestProcessed, yTest, batch_size = 1, verbose=0) #test performance
 
