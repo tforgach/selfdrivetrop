@@ -7,7 +7,7 @@ import os
 from sklearn.model_selection import train_test_split
 
 # load data for preprocessing
-imgDir = "DeepSteer/rosbags" # image directory
+imgDir = "DeepSteer/extracted_images" # image directory
 imgPaths = [os.path.join(imgDir, filename) for filename in os.listdir(imgDir) if filename.endswith(".jpg")] # load data
 labels = np.zeros(len(imgPaths)) # load data
 
