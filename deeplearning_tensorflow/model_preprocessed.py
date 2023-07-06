@@ -6,6 +6,8 @@ import numpy as np
 import cv2 as cv
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import rospy
+from std_msgs.msg import Float32
 
 # Load image paths and labels from the CSV file
 data_df = pd.read_csv("") #CHANGE BASED ON YOUR COMPUTER, THIS THE FOLDER IMAGES ARE PUT INTO
@@ -107,6 +109,13 @@ elif menu=="3":
         centeringErrors.append(centeringError)
     avgCenteringError = np.mean(centeringErrors)
     print(f"Average Centering Error: {avgCenteringError}")
+
+    centeringError_pub = rospy.Publisher("avgCenteringError", Float32, queue_size=10)
+    rate = rospy.Rate(10)
+
+    while not rospy.is_shutdown():
+        centeringError_pub.publish(avgCenteringError)
+        rate.sleep()
 
 xTestProcessed = tf.convert_to_tensor(xTestProcessed)
 yTest = tf.convert_to_tensor(yTest)
