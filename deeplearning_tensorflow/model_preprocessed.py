@@ -72,7 +72,7 @@ model = tf.keras.models.load_model("trained_model")
 menu = input(f"Training is complete, moving on to tests with {testSize} features.\n"
              f"1: Display each prediction and actual value\n"
              f"2: Display each prediction, actual value, and the input image\n"
-             f"3: Display accuracy plot after tests (Both of the other options will do this as well.)\n")
+             f"3: Display average centering error after tests as well as prediction, actual value, and input image\n")
 
 if menu == "1":
     predictions = model.predict(xTestProcessed)
@@ -91,6 +91,22 @@ elif menu == "2":
         cv.imshow("Input Image", img)
         cv.waitKey(0)
         cv.destroyAllWindows()
+        
+elif menu=="3":
+    centeringErrors = []
+    for i in range(testSize):
+        x = np.expand_dims(xTestProcessed[i], axis=0)
+        y = yTest[i]
+        img = xTestProcessed[i]
+        pred = model.predict(x)[0]
+        print(f'Feature {i}\nModel predicted: {pred}. Actual label: {y}\nLoss of: {np.abs(pred - y)}')
+        cv.imshow("Input Image", img)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+        centeringError = np.mean(pred[0] - y[0])
+        centeringErrors.append(centeringError)
+    avgCenteringError = np.mean(centeringErrors)
+    print(f"Average Centering Error: {avgCenteringError}")
 
 xTestProcessed = tf.convert_to_tensor(xTestProcessed)
 yTest = tf.convert_to_tensor(yTest)
