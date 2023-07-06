@@ -101,15 +101,16 @@ elif menu=="3":
         y = yTest[i]
         img = xTestProcessed[i]
         pred = model.predict(x)[0]
+        centeringError = np.abs(pred[0] - y[0])
+        centeringErrors.append(centeringError)
+        avgCenteringError = np.mean(centeringErrors)
+        print(f"Average Centering Error: {avgCenteringError}")
         print(f'Feature {i}\nModel predicted: {pred}. Actual label: {y}\nLoss of: {np.abs(pred - y)}')
         cv.imshow("Input Image", img)
         cv.waitKey(0)
         cv.destroyAllWindows()
-        centeringError = np.mean(pred[0] - y[0])
-        centeringErrors.append(centeringError)
-    avgCenteringError = np.mean(centeringErrors)
-    print(f"Average Centering Error: {avgCenteringError}")
 
+    rospy.init_node("avgCenteringeError")
     centeringError_pub = rospy.Publisher("avgCenteringError", Float32, queue_size=10)
     rate = rospy.Rate(10)
 
