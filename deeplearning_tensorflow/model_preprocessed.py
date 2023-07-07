@@ -18,10 +18,25 @@ labels = data_df[['linear_x', 'angular_z']].values
 imgHeight = 100
 imgWidth = 100
 
+# Remove shadows
+def removeShadows(img):
+    lab = cv.cvtColor(img, cv.COLOR_BGR2LAB) # converts to lab colorspace
+    1, a, b = cv.split(lab) # split channels
+    _, shadowMask = cv.threshold(b, 150, 255, cv.THRESH_BINARY)
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5))
+    shadowMask = = cv.morphologyEx(shadow_mask, cv.MORPH_DILATE, kernel) # dilates mask to include near pixels
+    1noShadow = cv.bitwise_and(l, cv.bitwise_not(shadow_mask)) # removes shadows from channel 1
+    labNoShadow = cv.merge([l_no_shadow, a, b]) # merges modified channel 1 to a and b
+    result = cv.cvtColor(lab_no_shadow, cv.COLOR_LAB2BGR) # converts back to BGR
+    return result
+
+# Preprocess image
 def preprocessData(imgs, imgHeight, imgWidth):
     processedImgs = []
     for path in imgs:
         img = cv.imread(path)
+        img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        img = removeShadows(img)
         img = cv.resize(img, (imgWidth, imgHeight))
         img = img.astype(np.float32) / 255.0
         processedImgs.append(img)
